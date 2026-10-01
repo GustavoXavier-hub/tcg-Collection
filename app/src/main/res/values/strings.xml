@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TCG Collection</string>
+    <string name="titulo_colecao">tcg-collection</string>
+    <string name="titulo_adicionar">adicionar carta</string>
+    <string name="btn_adicionar">Carta</string>
+    <string name="vazio_titulo">Nenhuma carta ainda.</string>
+    <string name="vazio_dica">Toque em + Carta e digite o código impresso no canto inferior direito da carta:</string>
+    <string name="vazio_exemplo">OP12-034\nop12 34\nST10-001</string>
+    <string name="vazio_rodape">Maiúsculas, hífen e zeros à esquerda são opcionais.</string>
+    <string name="lbl_jogo">jogo</string>
+    <string name="lbl_codigo">código</string>
+    <string name="lbl_versao">versão</string>
+    <string name="lbl_quantidade">quantidade</string>
+    <string name="lbl_idioma">idioma</string>
+    <string name="lbl_condicao">condição</string>
+    <string name="lbl_preco">preço pago por unidade (opcional)</string>
+    <string name="hint_preco">R$ 0,00</string>
+    <string name="btn_buscar">Buscar</string>
+    <string name="btn_salvar">Salvar na coleção</string>
+    <string name="desc_imagem">Imagem da carta</string>
+    <string name="desc_menos">Diminuir quantidade</string>
+    <string name="desc_mais">Aumentar quantidade</string>
+</resources>

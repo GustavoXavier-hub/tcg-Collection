@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Duas cartas sobrepostas. Formas cheias e grossas: legível em 48dp. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <group android:rotation="-14" android:pivotX="48" android:pivotY="54">
+        <path android:fillColor="#FFFFFF" android:fillAlpha="0.55"
+            android:pathData="M38,34h20a4,4 0,0 1,4 4v32a4,4 0,0 1,-4 4h-20a4,4 0,0 1,-4 -4v-32a4,4 0,0 1,4 -4z" />
+    </group>
+    <group android:rotation="8" android:pivotX="60" android:pivotY="54">
+        <path android:fillColor="#FFFFFF"
+            android:pathData="M50,34h20a4,4 0,0 1,4 4v32a4,4 0,0 1,-4 4h-20a4,4 0,0 1,-4 -4v-32a4,4 0,0 1,4 -4z" />
+        <path android:fillColor="#7A1B20"
+            android:pathData="M52,39h16a1,1 0,0 1,1 1v18a1,1 0,0 1,-1 1h-16a1,1 0,0 1,-1 -1v-18a1,1 0,0 1,1 -1z" />
+        <path android:fillColor="#7A1B20"
+            android:pathData="M52,63h16v4h-16z" />
+    </group>
+</vector>

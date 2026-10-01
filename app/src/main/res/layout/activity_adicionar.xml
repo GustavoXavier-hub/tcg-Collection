@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            style="@style/Txt.Titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/titulo_adicionar" />
+
+        <!-- Só aparece quando houver mais de um jogo cadastrado em Fontes -->
+        <LinearLayout
+            android:id="@+id/blocoJogo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/Txt.Rotulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_jogo" />
+
+            <Spinner
+                android:id="@+id/spJogo"
+                android:layout_width="match_parent"
+                android:layout_height="48dp" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/Txt.Rotulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_codigo" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edtCodigo"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_campo"
+                android:fontFamily="monospace"
+                android:imeOptions="actionSearch"
+                android:importantForAutofill="no"
+                android:inputType="textCapCharacters|textNoSuggestions"
+                android:maxLength="12"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:textColor="@color/ink"
+                android:textColorHint="@color/ink_soft"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btnBuscar"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                android:layout_marginStart="8dp"
+                android:text="@string/btn_buscar" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtStatus"
+            style="@style/Txt.Mono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/painelCarta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imgCartaGrande"
+                android:layout_width="match_parent"
+                android:layout_height="340dp"
+                android:contentDescription="@string/desc_imagem"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/txtNomeCarta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/ink"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtDetalhes"
+                style="@style/Txt.Mono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:lineSpacingExtra="2dp" />
+
+            <TextView
+                android:id="@+id/lblVersao"
+                style="@style/Txt.Rotulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/lbl_versao" />
+
+            <Spinner
+                android:id="@+id/spVersao"
+                android:layout_width="match_parent"
+                android:layout_height="48dp" />
+
+            <TextView
+                style="@style/Txt.Rotulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/lbl_quantidade" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnMenos"
+                    android:layout_width="56dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/desc_menos"
+                    android:text="−" />
+
+                <TextView
+                    android:id="@+id/txtQtd"
+                    android:layout_width="56dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/ink"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnMais"
+                    android:layout_width="56dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/desc_mais"
+                    android:text="+" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/Txt.Rotulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/lbl_idioma" />
+
+            <Spinner
+                android:id="@+id/spIdioma"
+                android:layout_width="match_parent"
+                android:layout_height="48dp" />
+
+            <TextView
+                style="@style/Txt.Rotulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/lbl_condicao" />
+
+            <Spinner
+                android:id="@+id/spCondicao"
+                android:layout_width="match_parent"
+                android:layout_height="48dp" />
+
+            <TextView
+                style="@style/Txt.Rotulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/lbl_preco" />
+
+            <EditText
+                android:id="@+id/edtPreco"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_campo"
+                android:digits="0123456789,.R$ "
+                android:fontFamily="monospace"
+                android:hint="@string/hint_preco"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:textColor="@color/ink"
+                android:textColorHint="@color/ink_soft" />
+
+            <Button
+                android:id="@+id/btnSalvar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/btn_salvar" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

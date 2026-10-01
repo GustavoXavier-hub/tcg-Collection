@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="idiomas_rotulos">
+        <item>EN — inglês</item>
+        <item>JP — japonês</item>
+        <item>PT — português</item>
+        <item>Outro</item>
+    </string-array>
+    <string-array name="idiomas_codigos">
+        <item>EN</item>
+        <item>JP</item>
+        <item>PT</item>
+        <item>OUTRO</item>
+    </string-array>
+
+    <string-array name="condicoes_rotulos">
+        <item>NM — quase nova</item>
+        <item>LP — pouco jogada</item>
+        <item>MP — jogada</item>
+        <item>HP — muito jogada</item>
+        <item>DMG — danificada</item>
+    </string-array>
+    <string-array name="condicoes_codigos">
+        <item>NM</item>
+        <item>LP</item>
+        <item>MP</item>
+        <item>HP</item>
+        <item>DMG</item>
+    </string-array>
+</resources>
