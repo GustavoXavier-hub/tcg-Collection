@@ -3,6 +3,7 @@ package com.gustavo.tcgcollection;
 import static org.junit.Assert.assertFalse;
 
 import com.gustavo.tcgcollection.fonte.OnePieceFonte;
+import com.gustavo.tcgcollection.util.TipoArte;
 
 import org.junit.Test;
 
@@ -15,6 +16,7 @@ public class RegexIcuGuardTest {
 
     private static final Class<?>[] CLASSES_COM_REGEX = {
             OnePieceFonte.class,
+            TipoArte.class,
     };
 
     @Test

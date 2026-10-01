@@ -25,8 +25,21 @@ public interface FonteCartas {
     String normalizarCodigo(String entrada);
 
     /**
+     * Acha um código de carta no texto lido pela câmera (OCR), tolerando as
+     * confusões típicas de leitura. Retorna o código normalizado ou null.
+     */
+    String acharCodigoNoTexto(String textoOcr);
+
+    /**
      * Busca todas as versões de uma carta (normal + artes alternativas).
      * Lista vazia = não encontrada. Roda fora da thread principal.
      */
     List<Carta> buscarPorCodigo(String codigoNormalizado) throws IOException;
+
+    /**
+     * Checklist de um set: uma carta por número (arte normal), em ordem de código.
+     * Artes alternativas e reimpressões de outros sets ficam de fora.
+     * Roda fora da thread principal.
+     */
+    List<Carta> checklistDoSet(String setId) throws IOException;
 }

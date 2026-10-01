@@ -49,10 +49,10 @@ public class ColecaoAdapter extends RecyclerView.Adapter<ColecaoAdapter.VH> {
     public void onBindViewHolder(@NonNull VH h, int pos) {
         ItemColecao i = itens.get(pos);
         Carta c = i.carta;
-        h.nome.setText(c.nome);
+        h.nome.setText(c.nomeBase());
+        etiqueta(h.arte, c.tipoArte());
         h.linhaCodigo.setText(juntar(c.codigo, c.raridade, c.cor));
-        String versao = c.ehVersaoPadrao() ? null : c.rotuloVersao();
-        h.linhaEstado.setText(juntar(Fontes.nomeDoJogo(c.jogo), i.idioma, i.condicao, versao));
+        h.linhaEstado.setText(juntar(Fontes.nomeDoJogo(c.jogo), i.idioma, i.condicao));
         h.qtd.setText("×" + i.quantidade);
         imagens.carregar(c.imagemUrl, h.imagem);
         h.itemView.setOnClickListener(v -> aoTocar.tocou(i));
@@ -61,6 +61,12 @@ public class ColecaoAdapter extends RecyclerView.Adapter<ColecaoAdapter.VH> {
     @Override
     public int getItemCount() {
         return itens.size();
+    }
+
+    /** Mostra a etiqueta de arte, ou esconde se for a arte normal. */
+    static void etiqueta(TextView v, String texto) {
+        v.setText(texto);
+        v.setVisibility(texto != null ? View.VISIBLE : View.GONE);
     }
 
     /** "a · b · c", pulando vazios. */
@@ -76,12 +82,13 @@ public class ColecaoAdapter extends RecyclerView.Adapter<ColecaoAdapter.VH> {
 
     static class VH extends RecyclerView.ViewHolder {
         final ImageView imagem;
-        final TextView nome, linhaCodigo, linhaEstado, qtd;
+        final TextView nome, arte, linhaCodigo, linhaEstado, qtd;
 
         VH(View v) {
             super(v);
             imagem = v.findViewById(R.id.imgCarta);
             nome = v.findViewById(R.id.txtNome);
+            arte = v.findViewById(R.id.txtArte);
             linhaCodigo = v.findViewById(R.id.txtCodigo);
             linhaEstado = v.findViewById(R.id.txtEstado);
             qtd = v.findViewById(R.id.txtQtd);

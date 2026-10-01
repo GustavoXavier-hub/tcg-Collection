@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<!-- Fundo do Usopp (res-local); escondido se a imagem não existir. -->
+<ImageView
+    android:id="@+id/imgFundo"
+    style="@style/Fundo.Persona"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -68,6 +80,16 @@
                 android:textColorHint="@color/ink_soft"
                 android:textSize="20sp" />
 
+            <ImageButton
+                android:id="@+id/btnCamera"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_campo"
+                android:contentDescription="@string/desc_camera"
+                android:src="@drawable/ic_camera"
+                app:tint="@color/accent" />
+
             <Button
                 android:id="@+id/btnBuscar"
                 android:layout_width="wrap_content"
@@ -107,6 +129,14 @@
                 android:textColor="@color/ink"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtArteCarta"
+                style="@style/Txt.Etiqueta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/txtDetalhes"
@@ -225,3 +255,4 @@
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
+</FrameLayout>

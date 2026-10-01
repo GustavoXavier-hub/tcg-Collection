@@ -33,12 +33,22 @@ public class OnePieceFonte implements FonteCartas {
             "^\\s*(OP|ST|EB|PRB)\\s*-?\\s*(\\d{1,2})\\s*-?\\s*(\\d{1,3})\\s*$",
             Pattern.CASE_INSENSITIVE);
 
+    /*
+     * Código no meio do texto da câmera. Mais frouxo que CODIGO por causa do OCR:
+     * aceita O/0, I/l/1, S/5, B/8, Z/2 trocados e travessão no lugar do hífen.
+     * Exige o hífen antes do número (sempre impresso na carta) para não confundir
+     * com outros números da carta (custo, poder). Sem \b e sem (?U).
+     */
+    static final Pattern CODIGO_OCR = Pattern.compile(
+            "(?<![A-Z0-9])(0P|OP|5T|ST|E8|EB|PR8|PRB)\\s?-?\\s?([0-9OILSBZ]{2})\\s?[-\u2013\u2014_]\\s?([0-9OILSBZ]{3})(?![0-9])");
+
     // Campos do JSON da OPTCG API — se a API mudar, é só mexer aqui.
     static final String F_NOME = "card_name";
     static final String F_CODIGO = "card_set_id";
     static final String F_VERSAO = "card_image_id";
     static final String F_IMAGEM = "card_image";
     static final String F_COLECAO = "set_name";
+    static final String F_SET_ID = "set_id";
     static final String F_RARIDADE = "rarity";
     static final String F_TIPO = "card_type";
     static final String F_COR = "card_color";
@@ -67,6 +77,34 @@ public class OnePieceFonte implements FonteCartas {
     }
 
     @Override
+    public String acharCodigoNoTexto(String textoOcr) {
+        if (textoOcr == null) return null;
+        Matcher m = CODIGO_OCR.matcher(textoOcr.toUpperCase(Locale.ROOT));
+        while (m.find()) {
+            String prefixo = m.group(1).replace('0', 'O').replace('5', 'S').replace('8', 'B');
+            String codigo = normalizarCodigo(prefixo + digitos(m.group(2)) + "-" + digitos(m.group(3)));
+            if (codigo != null) return codigo;
+        }
+        return null;
+    }
+
+    /** Letras que o OCR costuma ler no lugar de dígitos. */
+    static String digitos(String s) {
+        StringBuilder sb = new StringBuilder(s.length());
+        for (char c : s.toCharArray()) {
+            switch (c) {
+                case 'O': sb.append('0'); break;
+                case 'I': case 'L': sb.append('1'); break;
+                case 'S': sb.append('5'); break;
+                case 'B': sb.append('8'); break;
+                case 'Z': sb.append('2'); break;
+                default: sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
+    @Override
     public List<Carta> buscarPorCodigo(String codigo) throws IOException {
         // Starter decks (ST) ficam num endpoint separado na OPTCG API.
         String rota = codigo.startsWith("ST") ? "/decks/card/" : "/sets/card/";
@@ -82,6 +120,43 @@ public class OnePieceFonte implements FonteCartas {
         } catch (JSONException e) {
             throw new IOException("Resposta inesperada da OPTCG API: " + e.getMessage(), e);
         }
+    }
+
+    @Override
+    public List<Carta> checklistDoSet(String setId) throws IOException {
+        // Mesmo esquema da busca por carta: starter decks têm endpoint próprio.
+        String rota = setId.startsWith("ST") ? "/decks/" : "/sets/";
+        String json;
+        try {
+            json = Rede.getTexto(BASE + rota + setId + "/");
+        } catch (Rede.HttpErro e) {
+            if (e.status == 404) return new ArrayList<>();
+            throw e;
+        }
+        try {
+            return checklist(parse(json, ""), setId);
+        } catch (JSONException e) {
+            throw new IOException("Resposta inesperada da OPTCG API: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Do JSON inteiro do set, fica só o que "completa" o set: arte normal e código
+     * do próprio set ("OP-05" → OP05-xxx). A OP-09, por exemplo, traz a Wanted Poster
+     * da OP05-119, que conta para a OP-05, não para a OP-09. Público para os testes.
+     */
+    public static List<Carta> checklist(List<Carta> todas, String setId) {
+        String prefixo = setId.replace("-", "").toUpperCase(Locale.ROOT) + "-";
+        List<Carta> out = new ArrayList<>();
+        for (Carta c : todas) {
+            if (!c.ehVersaoPadrao()) continue;
+            if (!c.codigo.startsWith(prefixo)) continue;
+            boolean repetida = false;
+            for (Carta o : out) if (o.codigo.equals(c.codigo)) { repetida = true; break; }
+            if (!repetida) out.add(c);
+        }
+        out.sort((a, b) -> a.codigo.compareTo(b.codigo));
+        return out;
     }
 
     /** Público para os testes. Aceita lista ou objeto único. */
@@ -120,6 +195,7 @@ public class OnePieceFonte implements FonteCartas {
         c.versao = valorOu(texto(o, F_VERSAO), c.codigo);
         c.nome = nome;
         c.colecao = texto(o, F_COLECAO);
+        c.setId = texto(o, F_SET_ID);
         c.raridade = texto(o, F_RARIDADE);
         c.tipo = texto(o, F_TIPO);
         c.cor = texto(o, F_COR);

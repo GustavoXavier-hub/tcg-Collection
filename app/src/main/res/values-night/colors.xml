@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="paper">#141312</color>
-    <color name="surface">#1E1C1A</color>
-    <color name="ink">#EDE8E1</color>
-    <color name="ink_soft">#9A948C</color>
-    <color name="line">#2C2A27</color>
-    <color name="accent">#E0565C</color>
-    <color name="on_accent">#141312</color>
+    <color name="paper">#15110C</color>
+    <color name="surface">#211A12</color>
+    <color name="ink">#F0E6D6</color>
+    <color name="ink_soft">#A8987F</color>
+    <color name="line">#33291D</color>
+    <color name="accent">#E9A23B</color>
+    <color name="on_accent">#1A1208</color>
+    <color name="accent_container">#5A3510</color>
+    <color name="on_accent_container">#FFE2B0</color>
 </resources>

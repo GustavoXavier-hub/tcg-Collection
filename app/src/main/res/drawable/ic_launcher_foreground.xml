@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Duas cartas sobrepostas. Formas cheias e grossas: legível em 48dp. -->
+<!-- Máscara do Sogeking (Usopp): desenho original, gerado por tools/icone.py.
+     Traços grossos e poucas cores: legível em 48dp. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp" android:height="108dp"
     android:viewportWidth="108" android:viewportHeight="108">
-    <group android:rotation="-14" android:pivotX="48" android:pivotY="54">
-        <path android:fillColor="#FFFFFF" android:fillAlpha="0.55"
-            android:pathData="M38,34h20a4,4 0,0 1,4 4v32a4,4 0,0 1,-4 4h-20a4,4 0,0 1,-4 -4v-32a4,4 0,0 1,4 -4z" />
-    </group>
-    <group android:rotation="8" android:pivotX="60" android:pivotY="54">
-        <path android:fillColor="#FFFFFF"
-            android:pathData="M50,34h20a4,4 0,0 1,4 4v32a4,4 0,0 1,-4 4h-20a4,4 0,0 1,-4 -4v-32a4,4 0,0 1,4 -4z" />
-        <path android:fillColor="#7A1B20"
-            android:pathData="M52,39h16a1,1 0,0 1,1 1v18a1,1 0,0 1,-1 1h-16a1,1 0,0 1,-1 -1v-18a1,1 0,0 1,1 -1z" />
-        <path android:fillColor="#7A1B20"
-            android:pathData="M52,63h16v4h-16z" />
+    <group android:scaleX="1.18" android:scaleY="1.18" android:pivotX="54" android:pivotY="54" android:translateY="5">
+        <path android:fillColor="#F4C430" android:pathData="M52,35 C49,27 54,21 63,19 C59,25 63,29 61,35 Z" />
+        <path android:fillColor="#D9A21B" android:pathData="M44,40 C37,39 31,35 29,29 C35,32 41,32 46,35 Z" />
+        <path android:fillColor="#F4C430" android:pathData="M41,42 Q41,33 54,33 Q67,33 67,42 L67,64 Q67,71 60,71 L48,71 Q41,71 41,64 Z" />
+        <group>
+            <clip-path android:pathData="M41,42 Q41,33 54,33 Q67,33 67,42 L67,64 Q67,71 60,71 L48,71 Q41,71 41,64 Z" />
+            <path android:fillColor="#24377A" android:pathData="M38,40 L46,32 L72,58 L64,66 Z" />
+        </group>
+        <path android:fillColor="#E8E4DA" android:pathData="M42.3,48 a5.2,5.2 0 1,0 10.4,0 a5.2,5.2 0 1,0 -10.4,0" />
+        <path android:fillColor="#E8E4DA" android:pathData="M55.3,48 a5.2,5.2 0 1,0 10.4,0 a5.2,5.2 0 1,0 -10.4,0" />
+        <path android:fillColor="#1E5566" android:pathData="M44.5,48 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0" />
+        <path android:fillColor="#1E5566" android:pathData="M57.5,48 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0" />
+        <path android:fillColor="#F1EEE6" android:pathData="M52,41 h4 v17 a2,2 0 0 1 -4,0 z" />
+        <path android:strokeColor="#B9B2A3" android:strokeWidth="0.9" android:strokeLineCap="round" android:pathData="M52,45 h4 M52,49 h4 M52,53 h4" />
+        <path android:strokeColor="#2E6B4A" android:strokeWidth="2.6" android:strokeLineCap="round" android:pathData="M44,61 Q46,56 51,59" />
+        <path android:strokeColor="#2E6B4A" android:strokeWidth="2.6" android:strokeLineCap="round" android:pathData="M64,61 Q62,56 57,59" />
+        <path android:fillColor="#C8302E" android:pathData="M50.5,63.5 Q54,61.5 57.5,63.5 Q54,66.5 50.5,63.5 Z" />
+        <path android:fillColor="#A8242A" android:pathData="M26,92 Q27,72 42,68 Q54,72 66,68 Q81,72 82,92 Z" />
+        <path android:strokeColor="#7E1A1F" android:strokeWidth="1.6" android:strokeLineCap="round" android:pathData="M38,76 Q54,82 70,76 M34,84 Q54,90 74,84" />
     </group>
 </vector>

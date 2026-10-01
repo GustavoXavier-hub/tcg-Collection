@@ -1,22 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Fundo do Usopp (res-local); escondido se a imagem não existir. -->
+    <ImageView
+        android:id="@+id/imgFundo"
+        style="@style/Fundo.Persona"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnMenu"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/desc_menu"
+                android:src="@drawable/ic_menu"
+                app:tint="@color/ink" />
+
+            <TextView
+                style="@style/Txt.Titulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/titulo_colecao" />
+        </LinearLayout>
+
+        <!-- Set escolhido no menu lateral; some em "Todas as cartas". -->
         <TextView
-            style="@style/Txt.Titulo"
+            android:id="@+id/txtFiltro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/titulo_colecao" />
+            android:layout_marginEnd="20dp"
+            android:textColor="@color/accent"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/txtResumo"
@@ -25,7 +66,26 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/btnFaltantes"
+            style="@style/Txt.Mono"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="12dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/btn_faltantes"
+            android:textColor="@color/accent"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -49,7 +109,17 @@
                 android:padding="24dp"
                 android:visibility="gone">
 
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imgVazio"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/Forma.Arredondada" />
+
                 <TextView
+                    android:id="@+id/txtVazioTitulo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/vazio_titulo"
@@ -96,3 +166,14 @@
         android:text="@string/btn_adicionar"
         app:icon="@drawable/ic_add" />
 </FrameLayout>
+
+<com.google.android.material.navigation.NavigationView
+    android:id="@+id/navSets"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@color/surface"
+    app:itemTextColor="@color/ink"
+    app:headerLayout="@layout/drawer_cabecalho" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

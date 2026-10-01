@@ -21,4 +21,19 @@
     <string name="desc_imagem">Imagem da carta</string>
     <string name="desc_menos">Diminuir quantidade</string>
     <string name="desc_mais">Aumentar quantidade</string>
+    <string name="desc_menu">Abrir menu de sets</string>
+    <string name="drawer_dica">Escolha um set para filtrar</string>
+    <string name="drawer_todas">Todas as cartas</string>
+    <string name="drawer_secao_sets">Sets</string>
+    <string name="drawer_sem_set">Sem set</string>
+    <string name="btn_faltantes">Ver faltantes do set →</string>
+    <string name="titulo_faltantes">faltantes</string>
+    <string name="desc_camera">Ler o código pela câmera</string>
+    <string name="desc_lanterna">Ligar ou desligar a lanterna</string>
+    <string name="desc_fechar">Fechar</string>
+    <string name="scanner_dica">Mire no código do canto inferior direito da carta (ex.: %1$s).</string>
+    <string name="scanner_lendo">Mirando em %1$s… segura firme!</string>
+    <string name="scanner_sem_permissao">Sem permissão da câmera. Libere em Configurações → Apps, ou digite o código.</string>
+    <string name="scanner_erro_camera">Não consegui abrir a câmera.\n%1$s</string>
+    <string name="btn_atualizar_checklist">↻ atualizar checklist do set</string>
 </resources>

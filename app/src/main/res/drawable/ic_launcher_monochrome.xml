@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Silhueta da máscara do Sogeking para o ícone temático (Android 13+). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <group android:scaleX="1.18" android:scaleY="1.18" android:pivotX="54" android:pivotY="54" android:translateY="5">
+    <path android:fillColor="#FFFFFFFF" android:fillType="evenOdd"
+        android:pathData="M41,42 Q41,33 54,33 Q67,33 67,42 L67,64 Q67,71 60,71 L48,71 Q41,71 41,64 Z M52,35 C49,27 54,21 63,19 C59,25 63,29 61,35 Z M42.3,48 a5.2,5.2 0 1,0 10.4,0 a5.2,5.2 0 1,0 -10.4,0 M55.3,48 a5.2,5.2 0 1,0 10.4,0 a5.2,5.2 0 1,0 -10.4,0" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M44,40 C37,39 31,35 29,29 C35,32 41,32 46,35 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M30,90 Q31,74 42,70 Q54,74 66,70 Q77,74 78,90 Z" />
+    </group>
+</vector>

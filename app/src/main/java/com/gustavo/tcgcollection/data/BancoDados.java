@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class BancoDados extends SQLiteOpenHelper {
 
     private static final String NOME = "tcg.db";
-    private static final int VERSAO = 1;
+    private static final int VERSAO = 2;
 
     private static BancoDados instancia;
 
@@ -39,6 +39,7 @@ public class BancoDados extends SQLiteOpenHelper {
                 + "codigo TEXT NOT NULL,"
                 + "nome TEXT NOT NULL,"
                 + "colecao TEXT,"
+                + "set_id TEXT,"
                 + "raridade TEXT,"
                 + "tipo TEXT,"
                 + "cor TEXT,"
@@ -61,10 +62,40 @@ public class BancoDados extends SQLiteOpenHelper {
 
         // Mesma carta + mesmo idioma + mesma condição = uma linha só (soma quantidade).
         db.execSQL("CREATE UNIQUE INDEX ux_colecao ON colecao(jogo, versao, idioma, condicao)");
+
+        criarSetsBaixados(db);
+    }
+
+    /**
+     * Quando o checklist de cada set foi baixado. As cartas do checklist vão
+     * para a tabela cartas (é um cache); aqui só fica a data, para não
+     * baixar de novo toda vez que abrir as faltantes.
+     */
+    private static void criarSetsBaixados(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE sets_baixados ("
+                + "jogo TEXT NOT NULL,"
+                + "set_id TEXT NOT NULL,"
+                + "total INTEGER NOT NULL,"
+                + "baixado_em INTEGER NOT NULL,"
+                + "PRIMARY KEY (jogo, set_id))");
+        // Quais versões (arte normal) compõem cada set. Dados da carta ficam em cartas.
+        db.execSQL("CREATE TABLE set_checklist ("
+                + "jogo TEXT NOT NULL,"
+                + "set_id TEXT NOT NULL,"
+                + "codigo TEXT NOT NULL,"
+                + "versao TEXT NOT NULL,"
+                + "PRIMARY KEY (jogo, set_id, codigo),"
+                + "FOREIGN KEY (jogo, versao) REFERENCES cartas(jogo, versao))");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int antiga, int nova) {
-        // Migrações entram aqui quando a VERSAO subir (ex.: tabela de decks).
+        // Nunca editar um passo já publicado: sempre acrescentar o próximo.
+        if (antiga < 2) {
+            // v2: set_id para as cartas faltantes do set. Cartas antigas ficam
+            // com null até serem salvas de novo (o menu lateral usa o nome do set).
+            db.execSQL("ALTER TABLE cartas ADD COLUMN set_id TEXT");
+            criarSetsBaixados(db);
+        }
     }
 }

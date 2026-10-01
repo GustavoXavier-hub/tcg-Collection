@@ -6,3 +6,8 @@ local.properties
 *.iml
 captures/
 .cxx/
+
+# Imagens do anime/fan art: só locais, não vão pro repositório público.
+# O app usa o estilingue como fallback quando elas não existem.
+img/
+app/src/main/res-local/

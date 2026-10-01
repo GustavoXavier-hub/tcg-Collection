@@ -4,6 +4,10 @@
         <item name="colorPrimary">@color/accent</item>
         <item name="colorOnPrimary">@color/on_accent</item>
         <item name="colorSecondary">@color/accent</item>
+        <item name="colorPrimaryContainer">@color/accent_container</item>
+        <item name="colorOnPrimaryContainer">@color/on_accent_container</item>
+        <item name="colorSecondaryContainer">@color/accent_container</item>
+        <item name="colorOnSecondaryContainer">@color/on_accent_container</item>
         <item name="colorSurface">@color/surface</item>
         <item name="colorOnSurface">@color/ink</item>
         <item name="android:colorBackground">@color/paper</item>
@@ -12,6 +16,27 @@
         <item name="android:navigationBarColor">@color/paper</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
+    </style>
+
+    <!-- Gradiente já no windowBackground: sem flash de tela clara antes da splash. -->
+    <style name="Theme.TcgCollection.Splash">
+        <item name="android:windowBackground">@drawable/splash_gradient</item>
+        <item name="android:statusBarColor">@color/splash_topo</item>
+        <item name="android:navigationBarColor">@color/splash_base</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+
+    <!-- Bem apagado: decora sem competir com o texto. -->
+    <style name="Fundo.Persona" parent="">
+        <item name="android:alpha">0.12</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:importantForAccessibility">no</item>
+    </style>
+
+    <style name="Forma.Arredondada" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 
     <style name="Txt.Titulo" parent="">
@@ -27,6 +52,20 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:letterSpacing">0.08</item>
         <item name="android:textColor">@color/ink_soft</item>
+    </style>
+
+    <!-- Etiqueta do tipo de arte (Arte alternativa, Mangá, SP...). -->
+    <style name="Txt.Etiqueta" parent="">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/on_accent_container</item>
+        <item name="android:background">@drawable/bg_etiqueta</item>
+        <item name="android:paddingStart">6dp</item>
+        <item name="android:paddingEnd">6dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:visibility">gone</item>
     </style>
 
     <style name="Txt.Mono" parent="">

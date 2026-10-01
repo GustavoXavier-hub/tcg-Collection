@@ -1,5 +1,6 @@
 package com.gustavo.tcgcollection.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,9 +16,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import com.gustavo.tcgcollection.R;
 import com.gustavo.tcgcollection.data.ColecaoRepo;
@@ -26,6 +30,8 @@ import com.gustavo.tcgcollection.fonte.Fontes;
 import com.gustavo.tcgcollection.model.Carta;
 import com.gustavo.tcgcollection.net.Rede;
 import com.gustavo.tcgcollection.util.Moeda;
+import com.gustavo.tcgcollection.util.MugiwaraPersona;
+import com.gustavo.tcgcollection.util.MugiwaraPersona.Contexto;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,6 +41,9 @@ import java.util.concurrent.Executors;
 
 /** Digita o código → busca na API → escolhe versão/quantidade/idioma/condição → salva. */
 public class AdicionarActivity extends AppCompatActivity {
+
+    /** Código já preenchido (vindo das faltantes): busca direto ao abrir. */
+    public static final String EXTRA_CODIGO = "codigo";
 
     private static final String TAG = "TcgAdicionar";
 
@@ -49,9 +58,19 @@ public class AdicionarActivity extends AppCompatActivity {
     private Spinner spJogo, spVersao, spIdioma, spCondicao;
     private EditText edtCodigo, edtPreco;
     private Button btnBuscar, btnSalvar;
-    private TextView txtStatus, txtNome, txtDetalhes, txtQtd, lblVersao;
+    private TextView txtStatus, txtNome, txtArte, txtDetalhes, txtQtd, lblVersao;
     private ImageView imgCarta;
     private View painel;
+
+    /** Scanner devolve o código lido: preenche e já busca. */
+    private final ActivityResultLauncher<Intent> lerCamera =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), r -> {
+                if (r.getResultCode() != RESULT_OK || r.getData() == null) return;
+                String codigo = r.getData().getStringExtra(ScannerActivity.EXTRA_CODIGO);
+                if (codigo == null) return;
+                edtCodigo.setText(codigo);
+                buscar();
+            });
 
     @Override
     protected void onCreate(Bundle salvo) {
@@ -68,17 +87,21 @@ public class AdicionarActivity extends AppCompatActivity {
         btnSalvar = findViewById(R.id.btnSalvar);
         txtStatus = findViewById(R.id.txtStatus);
         txtNome = findViewById(R.id.txtNomeCarta);
+        txtArte = findViewById(R.id.txtArteCarta);
         txtDetalhes = findViewById(R.id.txtDetalhes);
         txtQtd = findViewById(R.id.txtQtd);
         lblVersao = findViewById(R.id.lblVersao);
         imgCarta = findViewById(R.id.imgCartaGrande);
         painel = findViewById(R.id.painelCarta);
+        PersonaImagens.aplicar(findViewById(R.id.imgFundo), PersonaImagens.FUNDO, 0);
 
         configurarJogos();
         spIdioma.setAdapter(adapterDe(R.array.idiomas_rotulos));
         spCondicao.setAdapter(adapterDe(R.array.condicoes_rotulos));
 
         btnBuscar.setOnClickListener(v -> buscar());
+        findViewById(R.id.btnCamera).setOnClickListener(v ->
+                lerCamera.launch(new Intent(this, ScannerActivity.class)));
         edtCodigo.setOnEditorActionListener((v, acao, ev) -> {
             boolean enter = ev != null && ev.getKeyCode() == KeyEvent.KEYCODE_ENTER
                     && ev.getAction() == KeyEvent.ACTION_DOWN;
@@ -99,6 +122,12 @@ public class AdicionarActivity extends AppCompatActivity {
             }
             @Override public void onNothingSelected(AdapterView<?> p) {}
         });
+
+        String codigo = getIntent().getStringExtra(EXTRA_CODIGO);
+        if (salvo == null && codigo != null) {
+            edtCodigo.setText(codigo);
+            buscar();
+        }
     }
 
     @Override
@@ -146,7 +175,7 @@ public class AdicionarActivity extends AppCompatActivity {
         esconderTeclado();
         painel.setVisibility(View.GONE);
         btnBuscar.setEnabled(false);
-        status("Buscando " + codigo + "…");
+        status("Mirando em " + codigo + "…");
 
         final FonteCartas f = fonte;
         bg.execute(() -> {
@@ -163,8 +192,8 @@ public class AdicionarActivity extends AppCompatActivity {
     private void resultado(String codigo, List<Carta> achadas) {
         btnBuscar.setEnabled(true);
         if (achadas.isEmpty()) {
-            status("Não encontrei " + codigo + " em " + fonte.nomeJogo()
-                    + ". Confira o código no canto da carta.");
+            status(MugiwaraPersona.frase(Contexto.NAO_ENCONTRADA)
+                    + "\n(" + codigo + " em " + fonte.nomeJogo() + ")");
             return;
         }
         versoes = achadas;
@@ -172,8 +201,7 @@ public class AdicionarActivity extends AppCompatActivity {
         txtQtd.setText("1");
         edtPreco.setText("");
 
-        List<String> rotulos = new ArrayList<>();
-        for (Carta c : achadas) rotulos.add(c.rotuloVersao());
+        List<String> rotulos = rotulosDasVersoes(achadas);
         ArrayAdapter<String> a = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, rotulos);
         a.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spVersao.setAdapter(a);
@@ -188,18 +216,39 @@ public class AdicionarActivity extends AppCompatActivity {
                 : "Encontrada.");
     }
 
+    /**
+     * Rótulo de cada versão no seletor. Quando dois ficam iguais (ex.: a arte
+     * alternativa da OP-05 e a da PRB-01), acrescenta o set para diferenciar.
+     */
+    static List<String> rotulosDasVersoes(List<Carta> versoes) {
+        List<String> base = new ArrayList<>();
+        for (Carta c : versoes) base.add(c.rotuloVersao());
+        List<String> out = new ArrayList<>();
+        for (int i = 0; i < versoes.size(); i++) {
+            String r = base.get(i);
+            Carta c = versoes.get(i);
+            boolean repetido = base.indexOf(r) != base.lastIndexOf(r);
+            String set = c.setId != null ? c.setId : c.colecao;
+            out.add(repetido && set != null ? r + " · " + set : r);
+        }
+        return out;
+    }
+
     private void falha(IOException e) {
         btnBuscar.setEnabled(true);
         if (e instanceof Rede.HttpErro) {
-            status("A API respondeu com erro " + ((Rede.HttpErro) e).status + ". Tente de novo mais tarde.");
+            status(MugiwaraPersona.frase(Contexto.ERRO)
+                    + "\nA API respondeu com erro " + ((Rede.HttpErro) e).status + ".");
         } else {
-            status("Sem conexão ou API fora do ar.\n" + descrever(e));
+            status(MugiwaraPersona.frase(Contexto.ERRO)
+                    + "\nSem conexão ou API fora do ar.\n" + descrever(e));
         }
     }
 
     private void mostrarCarta(Carta c) {
         selecionada = c;
-        txtNome.setText(c.nome);
+        txtNome.setText(c.nomeBase());
+        ColecaoAdapter.etiqueta(txtArte, c.tipoArte());
         String preco = Double.isNaN(c.precoMercadoUsd) ? null : "mercado " + Moeda.dolares(c.precoMercadoUsd);
         txtDetalhes.setText(ColecaoAdapter.juntar(c.codigo, c.raridade, c.cor, c.tipo)
                 + (c.colecao != null ? "\n" + c.colecao : "")
@@ -230,7 +279,12 @@ public class AdicionarActivity extends AppCompatActivity {
             try {
                 new ColecaoRepo(this).adicionar(carta, qtd, idioma, condicao, preco);
                 main.post(() -> {
-                    Toast.makeText(this, carta.nome + " ×" + qtd + " adicionada", Toast.LENGTH_SHORT).show();
+                    String egg = MugiwaraPersona.easterEgg(carta.nome, qtd);
+                    String fala = egg != null ? egg : MugiwaraPersona.frase(Contexto.SUCESSO);
+                    Snackbar.make(findViewById(android.R.id.content),
+                            carta.nome + " ×" + qtd + " — " + fala, Snackbar.LENGTH_LONG)
+                            .setTextMaxLines(4)
+                            .show();
                     prepararProxima();
                 });
             } catch (Exception e) {
